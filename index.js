@@ -34,6 +34,11 @@ var PassDoor = React.createClass({
             this.state.doorLeftClassName = 'hide'
             this.state.doorRightClassName = 'hide'
             this.setState(this.state);
+
+            ReactDOM.render(
+              <Content/>,
+              document.getElementById('content')
+            );
           }.bind(this));
           window.clearInterval(task);
         }.bind(this), 8000);
@@ -69,7 +74,10 @@ var Content = React.createClass({
   getInitialState: function() {
     return {
       currentContent: '',
-      content: 'hello world',
+      content: "  亲爱的小土土同学，作为仙女宝宝，<br>你如此的称职，" +
+        "融美貌与机智于一身。<br>你像一片轻柔的云在我眼前飘来飘去，<br>你清丽秀雅的脸" +
+        "上荡漾着春天般美丽的笑容。 <br>在你那双又大又亮的眼睛里， <br>我总能捕捉到" +
+        "你的宁静，<br>你的热烈， <br>你的聪颖， <br>你的敏感。 ",
       charIndex: -1,
       stringLength: 0,
       spanStyle: 'blink'
@@ -97,8 +105,8 @@ var Content = React.createClass({
 
     var theChar = content.charAt(charIndex);
     var nextFourChars = content.substr(charIndex, 4);
-    if (nextFourChars == '<BR>' || nextFourChars == '<br>') {
-      theChar = '<BR>';
+    if (nextFourChars == '<br>') {
+      theChar = '<br>';
       charIndex += 3;
     }
     initString = initString + theChar;
@@ -106,19 +114,19 @@ var Content = React.createClass({
 
     charIndex = charIndex / 1 + 1;
     this.state.charIndex = charIndex;
-    if (charIndex % 2 == 1) {
-      this.state.spanStyle = 'hide';
-    } else {
-      this.state.spanStyle = 'blink';
-    }
+    // if (charIndex % 2 == 1) {
+    //   this.state.spanStyle = 'hide';
+    // } else {
+    //   this.state.spanStyle = 'blink';
+    // }
 
     if (charIndex <= stringLength) {
       this.state.interval = setInterval(function() {
         this.writeContent();
         window.clearInterval(this.state.interval);
-      }.bind(this), 150);
+      }.bind(this), 200);
     } else {
-      this.blinkSpan();
+      // this.blinkSpan();
     }
 
     this.setState(this.state)
@@ -133,14 +141,15 @@ var Content = React.createClass({
     this.state.interval = setInterval(function() {
       this.blinkSpan();
       window.clearInterval(this.state.interval);
-    }.bind(this), 500);
+    }.bind(this), 5000);
   },
   render: function() {
-    return <div className='typeText'>{this.state.currentContent}<span className={this.state.spanStyle}>_</span></div>
+    var str = this.state.currentContent;
+    return <div className='typeText' dangerouslySetInnerHTML={{__html: str}}></div>
   }
 });
 
 ReactDOM.render(
   <Content/>,
-  document.getElementById('content')
+  document.getElementById('door')
 );

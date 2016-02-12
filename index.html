@@ -7,12 +7,23 @@
     <link rel="stylesheet" type="text/css" href="index.css">
   </head>
   <body>
-    <div id="content">
+  <script type="text/javascript" class="autoinsert" src="jquery-1.2.6.min.js"></script>
+  <script src="snowfall.jquery.js"></script>
+  <script>
+        $(document).snowfall('clear');
+        $(document).snowfall({
+            image: "images/huaban.png",
+            flakeCount:30,
+            minSize: 5,
+            maxSize: 22
+        });
+    </script>
+    <div id="content" class="main">
       <p>
         
       </p>
     </div>
-    <div id="door">
+    <div id="door" class="doorContainer">
       <p>
         If you can see this, React is not working right.
       </p>
