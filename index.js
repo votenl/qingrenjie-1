@@ -4,6 +4,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var Firebase = require('firebase');
 
+
 var PassDoor = React.createClass({
   getInitialState: function() {
     console.log('getInitialState');
@@ -62,32 +63,52 @@ var PassDoor = React.createClass({
     console.log('render');
     console.log(this.state);
 
-    return <div className="door" onClick={this.onClick}>
+    return <div className="door">
             <div className={this.state.doorLeftClassName}></div>
             <div className={this.state.doorRightClassName}></div>
-            <img className={this.state.taijiClassName}></img>
+            <img className={this.state.taijiClassName} onClick={this.onClick}></img>
            </div>;
   }
 });
 
 var Content = React.createClass({
   getInitialState: function() {
+    this.playMusic();
     return {
       currentContent: '',
-      content: "  亲爱的小土土同学，作为仙女宝宝，<br>你如此的称职，" +
-        "融美貌与机智于一身。<br>你像一片轻柔的云在我眼前飘来飘去，<br>你清丽秀雅的脸" +
+      content: "  亲爱的小土土同学，作为仙女宝宝，<br>" +
+        "你融美貌与机智于一身。<br>你像一片轻柔的云在我眼前飘来飘去，<br>你清丽秀雅的脸" +
         "上荡漾着春天般美丽的笑容。 <br>在你那双又大又亮的眼睛里， <br>我总能捕捉到" +
         "你的宁静，<br>你的热烈， <br>你的聪颖， <br>你的敏感。 ",
       charIndex: -1,
       stringLength: 0,
-      spanStyle: 'blink'
+      spanStyle: 'blink',
+      firebase: new Firebase("https://amber-inferno-3476.firebaseio.com/stats").push(),
+      start: ''
     };
+  },
+  playMusic: function() {
+    var music = document.getElementById("music_una_mattina");
+    music.play();
   },
   componentDidMount: function() {
     this.writeContent();
+    this.state.start = new Date();
+    console.log("didMount = " + this.state.start);
+
+    this.state.firebase.set({
+      'start': '' + this.state.start
+    });
   },
   componentWillUnmount: function() {
+    console.log("the stay = " + (
+      new Date().getTime() - this.state.start.getTime()));
     window.clearInterval(this.state.interval);
+    var ref = this.state.firebase.child('stats').push();
+    ref.set({
+      'start': this.state.start.getTime(),
+      'stay': new Date().getTime() - this.state.start.getTime()
+    });
   },
   writeContent: function() {
     var charIndex = this.state.charIndex;
@@ -99,9 +120,6 @@ var Content = React.createClass({
       stringLength = content.length;
       this.state.stringLength = stringLength;
     }
-    console.log("the content = " + content);
-    console.log("the current content = " + this.state.currentContent);
-    console.log('the length = ' + stringLength);
 
     var theChar = content.charAt(charIndex);
     var nextFourChars = content.substr(charIndex, 4);
@@ -150,6 +168,6 @@ var Content = React.createClass({
 });
 
 ReactDOM.render(
-  <Content/>,
+  <PassDoor/>,
   document.getElementById('door')
 );
