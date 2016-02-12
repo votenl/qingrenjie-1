@@ -1,0 +1,81 @@
+.door {
+}
+
+.doorLeft {
+	background-image: url('jiannan_left.png');
+	background-repeat: no-repeat;
+	width: 50%;
+	float: left;
+	position: relative;
+	background-size: contain;
+}
+
+.openDoorLeft{
+	-webkit-animation: moveLeft 5s linear;
+}
+
+@-webkit-keyframes moveLeft /*Safari and Chrome*/
+{
+	from {left:0px;}
+	to {left:-500px;}
+}
+
+.doorRight {
+	background-image: url('jiannan_right.png');
+	background-repeat: no-repeat;
+	background-size: contain;
+	width: 50%;
+	position: relative;
+	float: right;
+}
+.openDoorRight{
+	-webkit-animation: moveRight 5s linear;
+}
+
+@-webkit-keyframes moveRight /*Safari and Chrome*/
+{
+	from {left:0px;}
+	to {left:500px;}
+}
+
+.taiji {
+	background-image: url('taiji.png');
+	width: 500px;
+	height: 500px;
+	margin-left: -250px;
+	margin-top: -250px;
+	background-size: contain;
+	position: absolute;
+	border: none;
+	top: 50%;
+	left: 50%;
+}
+
+.rotating{-webkit-animation:circle 8s linear;}
+
+@-webkit-keyframes circle{
+	0%{ transform:rotate(0deg); }
+	100%{ transform:rotate(360deg); }
+}
+
+.blink {
+	display: inline;
+}
+
+.hide {
+	display: none;
+}
+
+.typeText {
+	color: #ff00ff;
+	background-color: #000000;
+	width: 100%;
+	min-height: 100px;
+	font-family: courier;
+	font-size: 50px;
+}
+
+html,body,div{
+	height:100%;
+	padding: 0px;
+}
